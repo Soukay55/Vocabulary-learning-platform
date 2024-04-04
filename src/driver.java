@@ -27,6 +27,8 @@ public class driver{
         }
     }
 
+
+
     public static void createFiles(){ //regler clothes qui na pas de contenu (tout shifted de un file)
         PrintWriter outputStreamWriterNewFiles = null;
         Scanner readerFilesTopics = null;
@@ -78,7 +80,7 @@ public class driver{
     }
 
     public static void main(String []args){
-        createTopicWordFile();
+
         createFiles();
 
     }
