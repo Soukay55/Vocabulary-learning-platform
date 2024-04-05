@@ -29,21 +29,27 @@ public class driver{
 
 
 
-    public static void createFiles(){ //regler clothes qui na pas de contenu (tout shifted de un file)
+    public static void createFiles(){
         PrintWriter outputStreamWriterNewFiles = null;
         Scanner readerFilesTopics = null;
         Scanner readerInputFiles = null;
         try{
             readerFilesTopics = new Scanner(new File("input_topics_words.txt"));
-            readerInputFiles = new Scanner(new File("A3_input_file.txt"));
             while (readerFilesTopics.hasNextLine()) {
+                readerInputFiles = new Scanner(new File("A3_input_file.txt"));
                 String topic = readerFilesTopics.nextLine();
                 outputStreamWriterNewFiles = new PrintWriter(new FileOutputStream(topic + ".txt"));
+                boolean isTopicFound = false;
                 while (readerInputFiles.hasNextLine()) {
                     String topicContent = readerInputFiles.nextLine();
                     if (topicContent.equals("#" + topic)) {
+                        isTopicFound = true;
+                        continue;
+                    }
+                    if (isTopicFound && topicContent.startsWith("#")) {
                         break;
-                    } else {
+                    }
+                    if (isTopicFound) {
                         outputStreamWriterNewFiles.println(topicContent);
                     }
                 }
@@ -80,7 +86,7 @@ public class driver{
     }
 
     public static void main(String []args){
-
+        createTopicWordFile();
         createFiles();
 
     }
