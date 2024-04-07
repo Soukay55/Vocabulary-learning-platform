@@ -89,5 +89,19 @@ public class driver{
         createTopicWordFile();
         createFiles();
 
+        SinglyLinkedList list = new SinglyLinkedList();
+
+        list.addAtHead("allo");
+        list.addAtEnd("bye");
+        list.addAtHead("salut");
+        list.addAfter("allo","aurevoir");
+        list.addBefore("allo","souky");
+        System.out.println(list.removeAfter("bye"));
+
+
+        //output : salut,allo,souky,aurevoir,bye
+
+        list.displayList();
+
     }
 }
