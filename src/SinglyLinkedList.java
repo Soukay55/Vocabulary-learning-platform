@@ -1,15 +1,15 @@
-public class SinglyLinkedList {
+public class SinglyLinkedList<T> {
 
-    private class Node {
-        private String value;
+    private class Node <T>{
+        private T value;
         private Node next;
 
         public Node() {
-            value = "";
+            value = null;
             next = null;
         }
 
-        public Node(String value, Node next) {
+        public Node(T value, Node next) {
             this.value = value;
             this.next = next;
         }
@@ -24,11 +24,6 @@ public class SinglyLinkedList {
         this.size=0;
     }
 
-    public SinglyLinkedList(Node head,int size)
-    {
-        this.head = head;
-        this.size=size;
-    }
 
     public boolean isEmpty()
     {
@@ -60,6 +55,7 @@ public class SinglyLinkedList {
 
     public void addAfter(String str,String newStr)
     {
+        boolean found = false;
             Node position = head;
 
             while (position.next!=null) {
@@ -67,9 +63,14 @@ public class SinglyLinkedList {
                 if (position.value.equals(str)) {
                     position.next = new Node(newStr, position.next);
                     size++;
+                    found=true;
                     break;
                 }
                 position = position.next;
+            }
+            if (found==false)
+            {
+                addAtEnd(newStr);
             }
     }
 
@@ -99,63 +100,63 @@ public class SinglyLinkedList {
        }
     }
 
-    public String removeHead()
+    public T removeHead()
     {
         if (head!=null)
         {
-            Node temp = head;
+            Node <T>temp = head;
 
             head = head.next;
 
             size--;
-            return head.value;
+            return (T) temp.value;
         }
         else
         {
-            return "there is no items";
+            return null;
         }
     }
 
-    public String removeEnd()
+    public T removeEnd()
     {
         if (head==null)
         {
-            return "There are no items";
+            return null;
         }
         else if (size==1)
         {
-            String value = head.value;
+            T value = (T)head.value;
             head =null;
             return value;
         }
         else
         {
-            Node position = head;
+            Node <T>position = head;
             while (position.next.next!=null)
             {
                 position = position.next;
             }
-            String value = position.next.value;
+            T value = (T)position.next.value;
             position.next=null;
             size--;
             return value;
         }
     }
 
-    public String removeValue(String str)
+    public T removeValue(String str)
     {
-        String value="";
+        T value=null;
         if (head.value.equals(str))
         {
-            value = head.value;
+            value = (T)head.value;
             removeHead();
         }
         else {
-            Node position = head;
+            Node <T> position = head;
             while (position.next != null) {
                 if (position.next.value.equals(str)) {
 
-                    value = position.next.value;
+                    value = (T)position.next.value;
                     position.next = position.next.next;
                     size--;
                     break;
@@ -166,29 +167,31 @@ public class SinglyLinkedList {
         return value;
     }
 
-    public String removeAfter(String str)
+    public T removeAfter(String str)
     {
-        String value="";
+        boolean found = false;
+        T value=null;
         if(size<2)
         {
-            value = "there is nothing after";
+            value =null;
         }
         //good case
         else {
-            Node position = head;
+            Node <T> position = head;
             while (position.next != null) {
                 if (position.value.equals(str)) {
 
-                    value = position.next.value;
+                    value = (T)position.next.value;
                     position.next = position.next.next;
                     size--;
+                    found= true;
                     break;
                 }
                 position = position.next;
             }
-            if (position.next==null)
+            if (position.next==null&&found==false)
             {
-                value="There are no items after "+position.value;
+                value=null;
             }
         }
         return value;
@@ -207,7 +210,7 @@ public class SinglyLinkedList {
         }
         else {
             System.out.println("Your list has " + size + " element(s): ");
-            Node position = head;
+            Node <T>position = head;
             while (position != null) {
                 System.out.println(position.value);
                 position = position.next;

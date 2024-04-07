@@ -19,4 +19,26 @@ public class Vocab {
         this.topic = topic;
         this.words = words;
     }
+
+    public Vocab(Vocab other) {
+        this.topic = other.topic;
+        this.words = other.words;
+    }
+
+    public boolean equals(Object other)
+    {
+        if (other ==null)
+        {
+            return false;
+        }
+        else if(getClass()!=other.getClass())
+        {
+            return false;
+        }
+        else
+        {
+            Vocab otherV = (Vocab) other;
+            return this.topic.equals(otherV.topic);
+        }
+    }
 }

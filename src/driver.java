@@ -89,19 +89,59 @@ public class driver{
         createTopicWordFile();
         createFiles();
 
-        SinglyLinkedList list = new SinglyLinkedList();
 
+        //TESTING ZONE
+        SinglyLinkedList <String>list  = new SinglyLinkedList<String>();
         list.addAtHead("allo");
         list.addAtEnd("bye");
         list.addAtHead("salut");
         list.addAfter("allo","aurevoir");
-        list.addBefore("allo","souky");
-        System.out.println(list.removeAfter("bye"));
+        list.addAfter("allo","souky");
+        list.addBefore("aurevoir","dfg");
+        list.addAfter("bye","cheh");
+        list.addAfter("bye","c");
+        Vocab v = new Vocab("color",list);
+
+        SinglyLinkedList list2= new SinglyLinkedList<>();
+
+        list2.addAtHead("a");
+        list2.addAtEnd("b");
+        list2.addAtHead("g");
+        list2.addAfter("a","r");
+        list2.addAfter("a","s");
+        list2.addBefore("r","f");
+        list2.addAfter("b","h");
+        list2.addAfter("b","t");
+
+        Vocab v1 = new Vocab("cars",list2);
+
+        SinglyLinkedList list3= new SinglyLinkedList<>();
+
+        list3.addAtHead("0");
+        list3.addAtEnd("7");
+        list3.addAtHead("5");
+        list3.addAfter("0","4");
+        list3.addAfter("0","3");
+        list3.addBefore("4","89");
+        list3.addAfter("7","65");
+        list3.addAfter("7","56");
+
+        Vocab v2 = new Vocab("house",list3);
+
+        Vocab v3 = new Vocab("pool",list3);
+
+        DoublyLinkedList dlist = new DoublyLinkedList();
+
+        dlist.addAtHead(v2);
+        dlist.addAtTail(v1);
+        dlist.addAfter(v2,v3);
+        dlist.addAtHead(v);
+
+
+
 
 
         //output : salut,allo,souky,aurevoir,bye
-
-        list.displayList();
 
     }
 }
