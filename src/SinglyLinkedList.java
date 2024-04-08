@@ -49,8 +49,8 @@ public class SinglyLinkedList<T> {
                 position = position.next;
             }
             position.next = new Node(newValue,null);
+            size++;
         }
-        size++;
     }
 
     public void addAfter(String str,String newStr)
@@ -68,7 +68,7 @@ public class SinglyLinkedList<T> {
                 }
                 position = position.next;
             }
-            if (found==false)
+            if (found==false&&position.value.equals(str))
             {
                 addAtEnd(newStr);
             }
@@ -127,6 +127,7 @@ public class SinglyLinkedList<T> {
         {
             T value = (T)head.value;
             head =null;
+            size--;
             return value;
         }
         else
@@ -217,6 +218,12 @@ public class SinglyLinkedList<T> {
             }
         }
     }
+
+    //contains
+
+    //modify
+
+
 
 
 
