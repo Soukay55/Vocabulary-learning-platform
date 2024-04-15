@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class SinglyLinkedList {
 
-    private class Node {
+    public class Node {
         private String  value;
         private Node next;
 
@@ -20,6 +20,15 @@ public class SinglyLinkedList {
         {
             this.value = value;
         }
+
+        public String getValue()
+        {
+            return this.value;
+        }
+
+        public Node getNext() {
+            return this.next;
+        }
     }
 
     private Node head;
@@ -30,6 +39,11 @@ public class SinglyLinkedList {
         this.head = null;
         this.size=0;
     }
+    public Node getHead()
+    {
+        return this.head;
+    }
+
 
     public boolean isEmpty()
     {
@@ -92,7 +106,6 @@ public class SinglyLinkedList {
                 if (position.next.value.charAt(0)==letter) {
 
                     list.add(position.next.value);
-                    break;
                 }
                 position = position.next;
             }
@@ -271,23 +284,31 @@ public class SinglyLinkedList {
     }
 
     public String displayList()
-    {    String str="";
+    {    StringBuilder str = new StringBuilder();
         int count=1;
         if (head==null)
         {
-            str = "There are no items";
+            str.append("There are no items");
         }
         else {
             //System.out.println("Your list has " + size + " element(s): ");
             Node position = head;
             while (position != null) {
-               str += count+": "+position.value.toString()+"\n";
+                str.append(String.format("%-30s",count+": "+ position.value));
+               //str += count+": "+position.value.toString()+"\t\t\t";
+               if (count%4==0)
+               {
+                   //str+="\n";
+                   str.append("\n");
+               }
                 position = position.next;
                 count++;
             }
         }
-        return str;
+        return str.toString();
     }
+
+
 
     public void emptyList()
     {

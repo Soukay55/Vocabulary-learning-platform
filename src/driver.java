@@ -14,7 +14,7 @@ public class driver{
         Scanner readerFiles = null;
         try{
             outputStreamWriterFiles = new PrintWriter(new FileOutputStream("input_topics_words.txt"));
-            readerFiles = new Scanner(new FileInputStream("A3_input_file.txt"));
+            readerFiles = new Scanner(new FileInputStream("A3_saved_words.txt"));
             while(readerFiles.hasNextLine()){
                 String lineTopic = readerFiles.nextLine();
                 if(lineTopic.startsWith("#")){
@@ -37,7 +37,7 @@ public class driver{
         try{
             readerFilesTopics = new Scanner(new File("input_topics_words.txt"));
             while (readerFilesTopics.hasNextLine()) {
-                readerInputFiles = new Scanner(new File("A3_input_file.txt"));
+                readerInputFiles = new Scanner(new File("A3_saved_words.txt"));
                 String topic = readerFilesTopics.nextLine();
                 outputStreamWriterNewFiles = new PrintWriter(new FileOutputStream(topic + ".txt"));
                 boolean isTopicFound = false;
@@ -77,6 +77,7 @@ public class driver{
                 "6 search topics for a word\n" +
                 "7 load from a file\n" +
                 "8 show all words starting with a given letter\n" +
+                        "9 save to file\n"+
                 "0 exit\n" +
                 "--------------------------------------------------\n" +
                 "Enter Your Choice:");
@@ -86,7 +87,7 @@ public class driver{
     {
         displayMenu();
         int choice = input.nextInt();
-        while (choice>8||choice<0)
+        while (choice>9||choice<0)
         {
             System.out.print("\nThis is not a valid choice please try again: ");
             choice = input.nextInt();
@@ -234,7 +235,7 @@ public class driver{
                         char letter = strletter.charAt(0);
                         ArrayList <String> list = new ArrayList<String>();
                         DoublyLinkedList.Node current = list_vocab.getHead();
-                        while (current.getNext() != null) {
+                        while (current != null) {
 
                             ArrayList<String> listTopic = current.getValue().getWords().startsWith(letter);
                             for(String elements: listTopic)
@@ -244,6 +245,7 @@ public class driver{
                             current = current.getNext();
                         }
                         //display
+                        System.out.println("Here are all the words that start with\""+letter+"\"");
                         for(String elements: list)
                         {
                             System.out.println(elements+"\n");
@@ -251,6 +253,40 @@ public class driver{
                     }
                     break;
 
+                }
+                case 9:
+                {
+                    PrintWriter writer = null;
+                    if (list_vocab==null)
+                    {
+                        System.out.println("There are no items");
+                    }
+                    else
+                    {
+                        try {
+                            writer = new PrintWriter(new FileOutputStream("A3_saved_words.txt"));
+                            DoublyLinkedList.Node current = list_vocab.getHead();
+                            while (current!=null)
+                            {
+                                writer.println("#"+current.getValue().getTopic());
+
+                                SinglyLinkedList.Node word = current.getValue().getWords().getHead();
+                                while (word!=null)
+                                {
+                                    writer.println(word.getValue());
+                                    word=word.getNext();
+                                }
+                                current=current.getNext();
+                            }
+                        }catch (FileNotFoundException e)
+                        {
+                            System.out.println("File not found");
+                            break;
+                        }
+                        System.out.println("Your file has been successfully saved!");
+                        writer.close();
+                    }
+                    break;
                 }
             }
         }while (choice!=0);
@@ -305,7 +341,6 @@ public class driver{
         System.out.println("0 exit\n" +
                 "--------------------------------------------------\n" +
                 "Enter Your Choice:");
-
     }
 
     public static int getValidChoiceDisplayWords(Scanner input)
