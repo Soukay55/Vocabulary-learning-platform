@@ -1,18 +1,37 @@
-import java.beans.VetoableChangeListenerProxy;
 
+/**
+ * Represents a doubly linked list that stores elements of type Vocab.
+ * Each element in the list is contained in a Node, which has references to both the next and previous nodes,
+ * allowing bidirectional traversal.
+ */
 public class DoublyLinkedList {
+
+    /**
+     * Represents a node in the DoublyLinkedList.
+     * Each node stores a value of type Vocab and references to both the next and previous nodes.
+     */
 
     public class Node{
         private Vocab value;
         private Node previous;
         private Node next;
 
+        /**
+         * Default constructor. Initializes a new instance of Node with null references for value, previous, and next.
+         */
         public Node()
         {
             value=null;
             previous =null;
             next =null;
         }
+
+        /**
+         * Constructs a new Node with specified value, previous node, and next node.
+         * @param item The Vocab object to store in the node.
+         * @param prev The previous Node in the list.
+         * @param next The next Node in the list.
+         */
 
         public Node(Vocab item,Node prev,Node next)
         {
@@ -47,6 +66,12 @@ public class DoublyLinkedList {
         return this.head;
     }
 
+    /**
+     * Adds a new node with the specified Vocab object at the head of the list.
+     * If the list is empty, the new node becomes both head and tail.
+     * @param newVocab The Vocab object to add at the head of the list.
+     */
+
     public void addAtHead(Vocab newVocab)
     {
         if(size==0)
@@ -63,6 +88,12 @@ public class DoublyLinkedList {
         size++;
     }
 
+    /**
+     * Adds a new node with the specified Vocab object at the tail of the list.
+     * If the list is empty, this method delegates to addAtHead to set the first element.
+     * @param newVocab The Vocab object to add at the tail of the list.
+     */
+
     public void addAtTail(Vocab newVocab)
     {
         if (size==0)
@@ -78,6 +109,13 @@ public class DoublyLinkedList {
             size++;
         }
     }
+
+    /**
+     * Inserts a new node with the specified new Vocab object immediately after the node containing the specified Vocab object.
+     * If the target Vocab is not found, the new Vocab is added at the tail of the list.
+     * @param vocab The Vocab object after which the new node is to be inserted.
+     * @param newVocab The Vocab object to insert.
+     */
 
     public void addAfter(Vocab vocab,Vocab newVocab)
     {
@@ -110,6 +148,12 @@ public class DoublyLinkedList {
         }
     }
 
+    /**
+     * Inserts a new node with the specified new Vocab object immediately before the node containing the specified Vocab object.
+     * If the target Vocab is at the head, the new Vocab is added at the head of the list.
+     * @param vocab The Vocab object before which the new node is to be inserted.
+     * @param newVocab The Vocab object to insert.
+     */
     public void addBefore(Vocab vocab,Vocab newVocab)
     {
         boolean found = false;
@@ -144,6 +188,11 @@ public class DoublyLinkedList {
 
     }
 
+    /**
+     * Removes and returns the Vocab object at the head of the list.
+     * If the list is empty, returns null.
+     * @return The Vocab object formerly at the head of the list, or null if the list was empty.
+     */
     public Vocab removeHead()
     {
         if (size==0)
@@ -168,6 +217,11 @@ public class DoublyLinkedList {
         }
     }
 
+    /**
+     * Removes and returns the Vocab object at the tail of the list.
+     * If the list is empty, returns null.
+     * @return The Vocab object formerly at the tail of the list, or null if the list was empty.
+     */
     public Vocab removeTail()
     {
         if (size==0)
@@ -189,6 +243,12 @@ public class DoublyLinkedList {
     }
 
 
+    /**
+     * Removes the node containing the specified Vocab object from the list and returns its value.
+     * If the Vocab is not found, or the list is empty, returns null.
+     * @param vocab The Vocab object to remove.
+     * @return The Vocab object that was removed, or null if it was not found or the list was empty.
+     */
     public Vocab removeValue(Vocab vocab)
     {
         Vocab value=null;
@@ -232,7 +292,11 @@ public class DoublyLinkedList {
         return this.size;
     }
 
-    
+    /**
+     * This method is supposed to remove the node after the node containing the specified Vocab object, but it appears incomplete.
+     * @param vocab The Vocab object after which the node should be removed.
+     * @return The value of the node that was supposed to be removed, or null if applicable conditions are not met.
+     */
     public Vocab removeAfter(Vocab vocab)
     {
         Vocab value = null;
@@ -246,7 +310,9 @@ public class DoublyLinkedList {
         }
     }
 
-
+    /**
+     * Displays all the Vocab objects in the list from head to tail.
+     */
     public void displayForward() {
         if (size == 0) {
             System.out.println("The list is empty");
@@ -260,6 +326,11 @@ public class DoublyLinkedList {
         }
     }
 
+    /**
+     * Checks if there is a next node in the list from the current node.
+     * @param node The current node from which to check for a next node.
+     * @return true if there is a next node, false otherwise.
+     */
     public boolean hasNext(Node node) {
         return node != null ;
     }

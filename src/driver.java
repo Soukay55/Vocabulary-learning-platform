@@ -3,9 +3,27 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// ---------------------------------------------------------------------
+// Assignment 3
+// Written by: Wissem Oumsalem (40291712) & Soukayna Haitami (40280964)
+// ---------------------------------------------------------------------
 
+/**
+ * Wissem Oumsalem (40291712) <br>
+ * Soukayna Haitami (40280964) <br>
+ * COMP 249 <br>
+ * Assignment #3 <br>
+ * Due : April 15th, 2024
+ *
+ */
 
 public class driver{
+
+    /**
+     * Method to validate if the user's input is an integer to prevent the program from crashing
+     * @param input is the input of the user that is to validate
+     * @return the valid integer input
+     */
 
     public static int validIntegerInput(Scanner input){
         int integerInput=0;
@@ -22,7 +40,9 @@ public class driver{
         return integerInput;
     }
 
-    /** This function will create the file which contains all the Topics
+    /**
+     * Creates a file with topics and words related to those topics.
+     * @param fileName The name of the file to create.
      */
     public static void createTopicWordFile(String fileName) {
         PrintWriter outputStreamWriterFiles = null;
@@ -45,6 +65,10 @@ public class driver{
     }
 
 
+    /**
+     * General method for creating any required files by the application.
+     * @param fileName The name of the file to be created.
+     */
     public static void createFiles(String fileName){
         PrintWriter outputStreamWriterNewFiles = null;
         Scanner readerFilesTopics = null;
@@ -79,6 +103,9 @@ public class driver{
         }
     }
 
+    /**
+     * Displays the main menu of the application to the user.
+     */
     public static void displayMenu(){
         System.out.println(
                 "--------------------------------------------------\n" +
@@ -98,6 +125,11 @@ public class driver{
                 "Enter Your Choice:");
     }
 
+    /**
+     * Gets a validated choice from the user input within a certain range.
+     * @param input Scanner object for reading the input from the user.
+     * @return The validated choice as an integer.
+     */
     public static int getValidChoice(Scanner input)
     {
         displayMenu();
@@ -312,6 +344,11 @@ public class driver{
     static DoublyLinkedList list_vocab;
 
 
+    /**
+     * Loads files containing topics and words into a data structure.
+     * @param fileName The name of the file to load.
+     * @return A new DoublyLinkedList containing the loaded data.
+     */
     public static DoublyLinkedList loadFiles(String fileName)
     {
         Scanner scanner = null;
@@ -341,6 +378,9 @@ public class driver{
         return list_vocabs;
     }
 
+    /**
+     * Displays topics available in the application for user selection.
+     */
     public static void displayTopics() {
 
         System.out.println("--------------------------------------------------\n" + "Pick a topic\n" + "--------------------------------------------------\n");
@@ -358,6 +398,11 @@ public class driver{
                 "Enter Your Choice:");
     }
 
+    /**
+     * Gets a validated numeric choice from the user specifically for word display options.
+     * @param input Scanner object for reading the input from the user.
+     * @return The validated choice as an integer.
+     */
     public static int getValidChoiceDisplayWords(Scanner input)
     {
         displayTopics();
@@ -370,6 +415,11 @@ public class driver{
         return choice;
     }
 
+    /**
+     * Gets a validated alphabetic choice from the user.
+     * @param input Scanner object for reading the input from the user.
+     * @return The validated letter choice as a String.
+     */
     public static String getValidChoiceLetter(Scanner input)
     {
         String letter = input.next();
@@ -381,6 +431,11 @@ public class driver{
         return letter;
     }
 
+    /**
+     * Displays the word associated with the given choice from a doubly linked list.
+     * The choice determines which node's value in the list is displayed.
+     * @param choice The user's choice representing the position in the doubly linked list.
+     */
     public static void displayWords(int choice)
     {
         int count = 1;
@@ -393,7 +448,12 @@ public class driver{
         System.out.println(current.getValue());
     }
 
-
+    /**
+     * Adds a new topic and its associated words before another existing topic in the doubly linked list.
+     * The topic and words are collected from the user input.
+     * @param input The Scanner object to read user input.
+     * @param choice The position in the list where the new topic will be inserted before.
+     */
     public static void addTopicBeforeAnotherOne(Scanner input,int choice)
     {
         SinglyLinkedList listWords = new SinglyLinkedList();
@@ -416,6 +476,12 @@ public class driver{
         list_vocab.addBefore(current.getValue(),new Vocab(topic,listWords.clone()));
     }
 
+    /**
+     * Adds a new topic and its associated words after another existing topic in the doubly linked list.
+     * The topic and words are collected from the user input.
+     * @param input The Scanner object to read user input.
+     * @param choice The position in the list where the new topic will be inserted after.
+     */
     public static void addTopicAfterAnotherOne(Scanner input,int choice)
     {
         SinglyLinkedList listWords = new SinglyLinkedList();
@@ -438,6 +504,10 @@ public class driver{
         list_vocab.addAfter(current.getValue(),new Vocab(topic,listWords.clone()));
     }
 
+    /**
+     * Removes a topic from the doubly linked list based on the user's choice of position.
+     * @param choice The position in the doubly linked list from which the topic will be removed.
+     */
     public static void removeTopic(int choice)
     {
         SinglyLinkedList listWords = new SinglyLinkedList();
@@ -451,6 +521,12 @@ public class driver{
         list_vocab.removeValue(current.getValue());
     }
 
+
+    /**
+     * Prompts the user to enter a valid choice for modifying the topics, ensuring the choice is one of the allowed options.
+     * @param input Scanner object for reading the input from the user.
+     * @return A valid modification choice as a string.
+     */
     public static String getValidModiFyChoice(Scanner input)
     {
         displayModifyMenu();
@@ -464,6 +540,12 @@ public class driver{
         return choice;
     }
 
+    /**
+     * Allows the user to modify a topic by adding, removing, or changing words.
+     * The specific action is chosen by the user from a displayed menu.
+     * @param input Scanner object for reading the input from the user.
+     * @param choiceTopic The position of the topic in the doubly linked list to be modified.
+     */
     //JE SUIS RENDUE LA
     public static void modifyTopic(Scanner input,int choiceTopic)
     {
@@ -525,7 +607,9 @@ public class driver{
         }while (!choiceModify.equals("0"));
     }
 
-
+    /**
+     * Displays a menu for modifying topics, with options to add, remove, or change words, or to exit the modification menu.
+     */
     public static void displayModifyMenu()
     {
         System.out.println("-----------------------------\n" +
