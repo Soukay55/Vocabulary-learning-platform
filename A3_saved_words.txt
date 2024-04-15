@@ -1,3 +1,8 @@
+#allo
+ddd
+d
+d
+d
 #Clothes and Accessories
 backpack
 go(with/together)
@@ -84,12 +89,6 @@ pattern
 sweater
 wear(out)
 wool(len)
-#wissem
-f
-ff
-f
-f
-f
 #Colours
 (dark/light/pale)
 gold
@@ -286,6 +285,11 @@ pupil
 qualification
 test
 university
+#fffff
+d
+d
+d
+dd
 #Entertainment and Media
 act (v)
 chat

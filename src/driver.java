@@ -9,17 +9,17 @@ public class driver{
 
     /** This function will create the file which contains all the Topics
      */
-    public static void createTopicWordFile() {
+    public static void createTopicWordFile(String fileName) {
         PrintWriter outputStreamWriterFiles = null;
         Scanner readerFiles = null;
         try{
             outputStreamWriterFiles = new PrintWriter(new FileOutputStream("input_topics_words.txt"));
-            readerFiles = new Scanner(new FileInputStream("A3_saved_words.txt"));
+            readerFiles = new Scanner(new FileInputStream(fileName));
             while(readerFiles.hasNextLine()){
                 String lineTopic = readerFiles.nextLine();
                 if(lineTopic.startsWith("#")){
                     String topic = lineTopic.substring(1);
-                    outputStreamWriterFiles.print("\n"+topic);
+                    outputStreamWriterFiles.print(topic+"\n");
                 }
             }
             outputStreamWriterFiles.close();
@@ -30,14 +30,14 @@ public class driver{
     }
 
 
-    public static void createFiles(){
+    public static void createFiles(String fileName){
         PrintWriter outputStreamWriterNewFiles = null;
         Scanner readerFilesTopics = null;
         Scanner readerInputFiles = null;
         try{
             readerFilesTopics = new Scanner(new File("input_topics_words.txt"));
             while (readerFilesTopics.hasNextLine()) {
-                readerInputFiles = new Scanner(new File("A3_saved_words.txt"));
+                readerInputFiles = new Scanner(new File(fileName));
                 String topic = readerFilesTopics.nextLine();
                 outputStreamWriterNewFiles = new PrintWriter(new FileOutputStream(topic + ".txt"));
                 boolean isTopicFound = false;
@@ -98,10 +98,12 @@ public class driver{
 
 
     public static void main(String []args){
+        String fileTeacher = "A3_input_file.txt";
+        String savedFile = "A3_saved_words.txt";
         list_vocab = null;
         Scanner input = new Scanner(System.in);
-        //list_vocab = loadFiles();
-       // list_vocab.displayForward();
+        createTopicWordFile(savedFile);
+        createFiles(savedFile);
         int choice =0;
         do {
             choice = getValidChoice(input);
@@ -290,8 +292,6 @@ public class driver{
                 }
             }
         }while (choice!=0);
-        createTopicWordFile();
-        createFiles();
     }
 
     static DoublyLinkedList list_vocab;
