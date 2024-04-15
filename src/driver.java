@@ -576,6 +576,7 @@ public class driver{
                 }
                 case "r":
                 {
+                    displayWords(choiceTopic);
                     System.out.println("Enter a word: ");
                     String word = input.next();
                     if (current.getValue().getWords().contains(word)==false) {
@@ -589,6 +590,7 @@ public class driver{
                 }
                 case "c":
                 {
+                    displayWords(choiceTopic);
                     System.out.println("Enter the word to change: ");
                     String word = input.next();
                     if (current.getValue().getWords().contains(word)==false) {
