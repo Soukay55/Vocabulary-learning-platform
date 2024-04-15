@@ -144,7 +144,6 @@ public class driver{
                         choiceTopic = getValidChoiceDisplayWords(input);
                         addTopicBeforeAnotherOne(input, choiceTopic);
                     }
-
                     break;
                 }
                 case 3:
