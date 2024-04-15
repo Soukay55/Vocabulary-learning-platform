@@ -7,6 +7,21 @@ import java.util.Scanner;
 
 public class driver{
 
+    public static int validIntegerInput(Scanner input){
+        int integerInput=0;
+        boolean valid = false;
+        do{
+            if(input.hasNextInt()){
+                integerInput = input.nextInt();
+                valid=true;
+            }else {
+                System.out.print("Invalid value. Please enter an integer:");
+                input.next();
+            }
+        }while (!valid);
+        return integerInput;
+    }
+
     /** This function will create the file which contains all the Topics
      */
     public static void createTopicWordFile(String fileName) {
@@ -86,11 +101,11 @@ public class driver{
     public static int getValidChoice(Scanner input)
     {
         displayMenu();
-        int choice = input.nextInt();
+        int choice = validIntegerInput(input);
         while (choice>9||choice<0)
         {
             System.out.print("\nThis is not a valid choice please try again: ");
-            choice = input.nextInt();
+            choice = validIntegerInput(input);
         }
         return choice;
     }
@@ -346,11 +361,11 @@ public class driver{
     public static int getValidChoiceDisplayWords(Scanner input)
     {
         displayTopics();
-        int choice = input.nextInt();
+        int choice = validIntegerInput(input);
         while (choice>list_vocab.getSize()||choice<0)
         {
             System.out.print("\nThis is not a valid choice please try again: ");
-            choice = input.nextInt();
+            choice = validIntegerInput(input);
         }
         return choice;
     }
