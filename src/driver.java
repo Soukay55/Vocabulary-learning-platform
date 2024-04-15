@@ -170,6 +170,7 @@ public class driver{
                         choiceTopic = getValidChoiceDisplayWords(input);
                         removeTopic(choiceTopic);
                     }
+                    break;
                 }
                 case 5:
                 {

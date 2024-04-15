@@ -233,7 +233,7 @@ public class SinglyLinkedList {
         String  value=null;
         if (head.value.equals(str))
         {
-            found =false;
+            found =true;
         }
         else {
             Node  position = head;
