@@ -13,4 +13,3 @@ white
 brown
 grey
 red
-

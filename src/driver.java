@@ -1,4 +1,6 @@
+import javax.swing.plaf.IconUIResource;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -17,7 +19,7 @@ public class driver{
                 String lineTopic = readerFiles.nextLine();
                 if(lineTopic.startsWith("#")){
                     String topic = lineTopic.substring(1);
-                    outputStreamWriterFiles.println(topic);
+                    outputStreamWriterFiles.print("\n"+topic);
                 }
             }
             outputStreamWriterFiles.close();
@@ -26,7 +28,6 @@ public class driver{
             System.out.println("The file couldn't be created properly.");
         }
     }
-
 
 
     public static void createFiles(){
@@ -81,43 +82,410 @@ public class driver{
                 "Enter Your Choice:");
     }
 
-    public static void getTopic(){
-
+    public static int getValidChoice(Scanner input)
+    {
+        displayMenu();
+        int choice = input.nextInt();
+        while (choice>8||choice<0)
+        {
+            System.out.print("\nThis is not a valid choice please try again: ");
+            choice = input.nextInt();
+        }
+        return choice;
     }
+
+
 
     public static void main(String []args){
+        list_vocab = null;
+        Scanner input = new Scanner(System.in);
+        //list_vocab = loadFiles();
+       // list_vocab.displayForward();
+        int choice =0;
+        do {
+            choice = getValidChoice(input);
+            switch (choice)
+            {
+                case 1:
+                {
+                    int choiceTopic=0;
+                    if (list_vocab==null)
+                    {
+                        System.out.println("There are no items");
+                    }
+                    else {
+                        do {
+                            choiceTopic = getValidChoiceDisplayWords(input);
+
+                            if (choiceTopic==0)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                displayWords(choiceTopic);
+                            }
+                        }
+                        while (choiceTopic!=0);
+                    }
+                    break;
+                }
+                case 2:
+                {
+                    if (list_vocab==null)
+                    {
+                        System.out.println("There are no items");
+                    }
+                    else {
+                        int choiceTopic = 0;
+                        choiceTopic = getValidChoiceDisplayWords(input);
+                        addTopicBeforeAnotherOne(input, choiceTopic);
+                    }
+
+                    break;
+                }
+                case 3:
+                {
+                    if (list_vocab==null)
+                    {
+                        System.out.println("There are no items");
+                    }
+                    else {
+                        int choiceTopic = 0;
+                        choiceTopic = getValidChoiceDisplayWords(input);
+                        addTopicAfterAnotherOne(input, choiceTopic);
+                    }
+                    break;
+                }
+                case 4:
+                {
+                    if (list_vocab==null)
+                    {
+                        System.out.println("There are no items");
+                    }
+                    else {
+                        int choiceTopic = 0;
+                        choiceTopic = getValidChoiceDisplayWords(input);
+                        removeTopic(choiceTopic);
+                    }
+                }
+                case 5:
+                {
+                    if (list_vocab==null)
+                    {
+                        System.out.println("There are no items");
+                    }
+                    else
+                    {
+                        int choiceTopic = getValidChoiceDisplayWords(input);
+                        modifyTopic(input,choiceTopic);
+                    }
+                    break;
+
+                }
+                case 6:
+                {
+                    if (list_vocab==null)
+                    {
+                        System.out.println("There are no items");
+                    }
+                    else {
+                        boolean found = false;
+                        System.out.println("Enter the word you want to search: ");
+                        String word = input.next();
+                        DoublyLinkedList.Node current = list_vocab.getHead();
+                        while (current.getNext() != null) {
+                            if (current.getValue().getWords().contains(word)) {
+                                System.out.println("The word \"" + word + "\" is in topic: " + current.getValue().getTopic());
+                                found = true;
+                                break;
+                            } else {
+                                found = false;
+                            }
+                            current = current.getNext();
+                        }
+                        if (found == false) {
+                            System.out.println("The word \"" + word + "\" is not in any topic");
+                        }
+                    }
+                    break;
+
+                }
+                case 7:
+                {
+                    System.out.println("Enter the name of the input file: ");
+                    String name = input.next();
+                    list_vocab = loadFiles(name);
+                    if (list_vocab!=null) {
+                        System.out.println("Done loading");
+                    }
+                    break;
+                }
+                case 8:
+                {
+                    if (list_vocab==null)
+                    {
+                        System.out.println("There are no items");
+                    }
+                    else
+                    {
+                        System.out.println("Enter the letter: ");
+                        String strletter = getValidChoiceLetter(input);
+                        char letter = strletter.charAt(0);
+                        ArrayList <String> list = new ArrayList<String>();
+                        DoublyLinkedList.Node current = list_vocab.getHead();
+                        while (current.getNext() != null) {
+
+                            ArrayList<String> listTopic = current.getValue().getWords().startsWith(letter);
+                            for(String elements: listTopic)
+                            {
+                                list.add(elements);
+                            }
+                            current = current.getNext();
+                        }
+                        //display
+                        for(String elements: list)
+                        {
+                            System.out.println(elements+"\n");
+                        }
+                    }
+                    break;
+
+                }
+            }
+        }while (choice!=0);
         createTopicWordFile();
         createFiles();
+    }
+
+    static DoublyLinkedList list_vocab;
 
 
-        //TESTING ZONE
-        SinglyLinkedList <String>list  = new SinglyLinkedList<String>();
-        list.addAtHead("allo");
-        //list.removeHead();
-        list.addAtEnd("bye");
-        list.addAtHead("salut");
-        list.addAfter("allo","aurevoir");
-        list.addAfter("allo","souky");
-        list.removeEnd();
+    public static DoublyLinkedList loadFiles(String fileName)
+    {
+        Scanner scanner = null;
+        Scanner scanner2 = null;
+        DoublyLinkedList list_vocabs = new DoublyLinkedList();
+        String topic=null;
+        SinglyLinkedList wordList= new SinglyLinkedList();
 
+        try {
+            scanner = new Scanner(new FileInputStream(fileName));
+            while (scanner.hasNextLine()) {
+                topic= scanner.nextLine();
+                wordList.emptyList();
+                scanner2 = new Scanner(new FileInputStream(topic+".txt"));
+                while (scanner2.hasNextLine())
+                {
+                        wordList.addAtEnd(scanner2.nextLine());
+                }
+                list_vocabs.addAtTail(new Vocab(topic,wordList.clone()));
+                wordList.emptyList();
+            }
+        }catch (FileNotFoundException e)
+        {
+            System.out.println("File not found");
+            return null;
+        }
+        return list_vocabs;
+    }
 
-        // list.addBefore("aurevoir","dfg");
+    public static void displayTopics() {
 
-        list.displayList();
-
-        System.out.println("DOUBLY LINKED LIST");
-        DoublyLinkedList list1  = new DoublyLinkedList();
-        list1.addAtHead("allo");
-        list1.addAtHead("salut");
-        list1.addAtHead("bye");
-        //list1.addAtTail("bye");
-        list1.addBefore("bye","gg");
-        list1.removeValue("allo");
-
-
-        list1.displayForward();
-
-        //output : salut,allo,souky,aurevoir,bye
+        System.out.println("--------------------------------------------------\n" + "Pick a topic\n" + "--------------------------------------------------\n");
+        DoublyLinkedList.Node current = list_vocab.getHead();
+        int count =1;
+        while (list_vocab.hasNext(current))
+        {
+            Vocab currentVocab = current.getValue();
+            System.out.println(count+": "+currentVocab.getTopic());
+            count++;
+            current = current.getNext();
+        }
+        System.out.println("0 exit\n" +
+                "--------------------------------------------------\n" +
+                "Enter Your Choice:");
 
     }
+
+    public static int getValidChoiceDisplayWords(Scanner input)
+    {
+        displayTopics();
+        int choice = input.nextInt();
+        while (choice>list_vocab.getSize()||choice<0)
+        {
+            System.out.print("\nThis is not a valid choice please try again: ");
+            choice = input.nextInt();
+        }
+        return choice;
+    }
+
+    public static String getValidChoiceLetter(Scanner input)
+    {
+        String letter = input.next();
+        while (letter.length()>1)
+        {
+            System.out.print("\nThis is not a valid choice please try again: ");
+            letter = input.next();
+        }
+        return letter;
+    }
+
+    public static void displayWords(int choice)
+    {
+        int count = 1;
+        DoublyLinkedList.Node current = list_vocab.getHead();
+        while (count!=choice)
+        {
+            current = current.getNext();
+            count++;
+        }
+        System.out.println(current.getValue());
+    }
+
+
+    public static void addTopicBeforeAnotherOne(Scanner input,int choice)
+    {
+        SinglyLinkedList listWords = new SinglyLinkedList();
+        System.out.println("Enter the name of the topic: ");
+        String trash = input.nextLine();
+        String topic = input.nextLine();
+        System.out.println("Enter a word - to quit press Enter: ");
+        String word;
+        while (!(word = input.nextLine()).isEmpty()) { // Read until an empty line is encountered
+            listWords.addAtEnd(word);
+            //System.out.println("Enter another word or press Enter to quit: ");
+        }
+        int count=1;
+        DoublyLinkedList.Node current = list_vocab.getHead();
+        while (count!=choice)
+        {
+            current = current.getNext();
+            count++;
+        }
+        list_vocab.addBefore(current.getValue(),new Vocab(topic,listWords.clone()));
+    }
+
+    public static void addTopicAfterAnotherOne(Scanner input,int choice)
+    {
+        SinglyLinkedList listWords = new SinglyLinkedList();
+        System.out.println("Enter the name of the topic: ");
+        String trash = input.nextLine();
+        String topic = input.nextLine();
+        System.out.println("Enter a word - to quit press Enter: ");
+        String word;
+        while (!(word = input.nextLine()).isEmpty()) { // Read until an empty line is encountered
+            listWords.addAtEnd(word);
+            //System.out.println("Enter another word or press Enter to quit: ");
+        }
+        int count=1;
+        DoublyLinkedList.Node current = list_vocab.getHead();
+        while (count!=choice)
+        {
+            current = current.getNext();
+            count++;
+        }
+        list_vocab.addAfter(current.getValue(),new Vocab(topic,listWords.clone()));
+    }
+
+    public static void removeTopic(int choice)
+    {
+        SinglyLinkedList listWords = new SinglyLinkedList();
+        int count=1;
+        DoublyLinkedList.Node current = list_vocab.getHead();
+        while (count!=choice)
+        {
+            current = current.getNext();
+            count++;
+        }
+        list_vocab.removeValue(current.getValue());
+    }
+
+    public static String getValidModiFyChoice(Scanner input)
+    {
+        displayModifyMenu();
+        System.out.print("Enter your choice: ");
+        String choice = input.next();
+        while (!choice.equals("r")&&!choice.equals("a")&&!choice.equals("c")&&!choice.equals("0"))
+        {
+            System.out.print("\nThis is not a valid choice please try again: ");
+            choice = input.next();
+        }
+        return choice;
+    }
+
+    //JE SUIS RENDUE LA
+    public static void modifyTopic(Scanner input,int choiceTopic)
+    {
+        String choiceModify = "";
+        int count =1;
+        DoublyLinkedList.Node current = list_vocab.getHead();
+        while (count!=choiceTopic)
+        {
+            current = current.getNext();
+            count++;
+        }
+        do {
+             choiceModify = getValidModiFyChoice(input);
+            switch (choiceModify)
+            {
+                case "a":
+                {
+                    System.out.println("Enter a word: ");
+                    String word = input.next();
+                    if (current.getValue().getWords().contains(word)==false) {
+                        current.getValue().getWords().addAtHead(word);
+                    }
+                    else
+                    {
+                        System.out.println("The word \""+word+"\" is already listed");
+                    }
+                    break;
+                }
+                case "r":
+                {
+                    System.out.println("Enter a word: ");
+                    String word = input.next();
+                    if (current.getValue().getWords().contains(word)==false) {
+                        System.out.println("Sorry there is no word "+"\""+word+"\"");
+                    }
+                    else
+                    {
+                        current.getValue().getWords().removeValue(word);
+                    }
+                    break;
+                }
+                case "c":
+                {
+                    System.out.println("Enter the word to change: ");
+                    String word = input.next();
+                    if (current.getValue().getWords().contains(word)==false) {
+                        System.out.println("Sorry there is no word "+"\""+word+"\"");
+                    }
+                    else
+                    {
+                        System.out.println("Enter the new word: ");
+                        String newWord = input.next();
+                        current.getValue().getWords().modifyValue(word,newWord);
+                    }
+                    break;
+                }
+            }
+
+        }while (!choiceModify.equals("0"));
+    }
+
+
+    public static void displayModifyMenu()
+    {
+        System.out.println("-----------------------------\n" +
+                "Modify Topics Menu\n" +
+                "-----------------------------\n" +
+                "a add a word\n" +
+                "r remove a word\n" +
+                "c change a word\n" +
+                "0 Exit\n" +
+                "-----------------------------\n");
+    }
 }
+

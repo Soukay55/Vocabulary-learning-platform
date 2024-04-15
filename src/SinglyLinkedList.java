@@ -1,7 +1,9 @@
-public class SinglyLinkedList<T> {
+import java.util.ArrayList;
 
-    private class Node <T>{
-        private T value;
+public class SinglyLinkedList {
+
+    private class Node {
+        private String  value;
         private Node next;
 
         public Node() {
@@ -9,9 +11,14 @@ public class SinglyLinkedList<T> {
             next = null;
         }
 
-        public Node(T value, Node next) {
+        public Node(String value, Node next) {
             this.value = value;
             this.next = next;
+        }
+
+        public void setValue(String value)
+        {
+            this.value = value;
         }
     }
 
@@ -23,7 +30,6 @@ public class SinglyLinkedList<T> {
         this.head = null;
         this.size=0;
     }
-
 
     public boolean isEmpty()
     {
@@ -51,6 +57,46 @@ public class SinglyLinkedList<T> {
             position.next = new Node(newValue,null);
             size++;
         }
+    }
+
+    public void modifyValue(String valueBefore,String valueAfter)
+    {
+        String value=null;
+        if (head.value.equals(valueBefore))
+        {
+            head.value = valueAfter;
+        }
+        else {
+            Node position = head;
+            while (position.next != null) {
+                if (position.next.value.equals(valueBefore)) {
+
+                    position.next.value = valueAfter;
+                    break;
+                }
+                position = position.next;
+            }
+        }
+    }
+
+    public ArrayList<String> startsWith(char letter)
+    {
+        ArrayList<String> list = new ArrayList<String>();
+        String value=null;
+        if (head.value.charAt(0)==letter)
+        {
+            list.add(head.value);
+        }
+            Node  position = head;
+            while (position.next != null) {
+                if (position.next.value.charAt(0)==letter) {
+
+                    list.add(position.next.value);
+                    break;
+                }
+                position = position.next;
+            }
+            return list;
     }
 
     public void addAfter(String str,String newStr)
@@ -100,16 +146,16 @@ public class SinglyLinkedList<T> {
        }
     }
 
-    public T removeHead()
+    public String removeHead()
     {
         if (head!=null)
         {
-            Node <T>temp = head;
+            Node temp = head;
 
             head = head.next;
 
             size--;
-            return (T) temp.value;
+            return  temp.value;
         }
         else
         {
@@ -117,7 +163,7 @@ public class SinglyLinkedList<T> {
         }
     }
 
-    public T removeEnd()
+    public String removeEnd()
     {
         if (head==null)
         {
@@ -125,39 +171,39 @@ public class SinglyLinkedList<T> {
         }
         else if (size==1)
         {
-            T value = (T)head.value;
+            String  value = head.value;
             head =null;
             size--;
             return value;
         }
         else
         {
-            Node <T>position = head;
+            Node position = head;
             while (position.next.next!=null)
             {
                 position = position.next;
             }
-            T value = (T)position.next.value;
+            String  value = position.next.value;
             position.next=null;
             size--;
             return value;
         }
     }
 
-    public T removeValue(String str)
+    public String removeValue(String str)
     {
-        T value=null;
+        String  value=null;
         if (head.value.equals(str))
         {
-            value = (T)head.value;
+            value = head.value;
             removeHead();
         }
         else {
-            Node <T> position = head;
+            Node  position = head;
             while (position.next != null) {
                 if (position.next.value.equals(str)) {
 
-                    value = (T)position.next.value;
+                    value = position.next.value;
                     position.next = position.next.next;
                     size--;
                     break;
@@ -168,21 +214,42 @@ public class SinglyLinkedList<T> {
         return value;
     }
 
-    public T removeAfter(String str)
+    public boolean contains(String str)
+    {
+        boolean found =false;
+        String  value=null;
+        if (head.value.equals(str))
+        {
+            found =false;
+        }
+        else {
+            Node  position = head;
+            while (position.next != null) {
+                if (position.next.value.equals(str)) {
+                    found = true;
+                    break;
+                }
+                position = position.next;
+            }
+        }
+        return found;
+    }
+
+    public String removeAfter(String str)
     {
         boolean found = false;
-        T value=null;
+        String  value=null;
         if(size<2)
         {
             value =null;
         }
         //good case
         else {
-            Node <T> position = head;
+            Node  position = head;
             while (position.next != null) {
                 if (position.value.equals(str)) {
 
-                    value = (T)position.next.value;
+                    value = position.next.value;
                     position.next = position.next.next;
                     size--;
                     found= true;
@@ -203,21 +270,45 @@ public class SinglyLinkedList<T> {
         return this.size;
     }
 
-    public void displayList()
-    {
+    public String displayList()
+    {    String str="";
+        int count=1;
         if (head==null)
         {
-            System.out.println("There are no items");
+            str = "There are no items";
         }
         else {
-            System.out.println("Your list has " + size + " element(s): ");
-            Node <T>position = head;
+            //System.out.println("Your list has " + size + " element(s): ");
+            Node position = head;
             while (position != null) {
-                System.out.println(position.value);
+               str += count+": "+position.value.toString()+"\n";
                 position = position.next;
+                count++;
             }
         }
+        return str;
     }
+
+    public void emptyList()
+    {
+        head = null;
+    }
+
+    public SinglyLinkedList clone() {
+        SinglyLinkedList clonedList = new SinglyLinkedList();
+
+        // Traverse the original list
+        Node current = this.head;
+        while (current != null) {
+            // Add each element to the cloned list
+            clonedList.addAtEnd(current.value);
+            current = current.next;
+        }
+
+        return clonedList;
+    }
+
+
 
     //contains
 

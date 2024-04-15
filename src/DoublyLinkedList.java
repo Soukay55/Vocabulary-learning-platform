@@ -2,8 +2,8 @@ import java.beans.VetoableChangeListenerProxy;
 
 public class DoublyLinkedList {
 
-    private class Node{
-        private String value;
+    public class Node{
+        private Vocab value;
         private Node previous;
         private Node next;
 
@@ -14,12 +14,22 @@ public class DoublyLinkedList {
             next =null;
         }
 
-        public Node(String item,Node prev,Node next)
+        public Node(Vocab item,Node prev,Node next)
         {
-            this.value=new String(item);
+            this.value=item;
             this.previous =prev;
             this.next =next;
         }
+
+        public Vocab getValue()
+        {
+            return this.value;
+        }
+
+        public Node getNext() {
+            return this.next;
+        }
+
 
     }
     private Node head;
@@ -32,8 +42,12 @@ public class DoublyLinkedList {
         tail =null;
         size=0;
     }
+    public Node getHead()
+    {
+        return this.head;
+    }
 
-    public void addAtHead(String newVocab)
+    public void addAtHead(Vocab newVocab)
     {
         if(size==0)
         {
@@ -49,7 +63,7 @@ public class DoublyLinkedList {
         size++;
     }
 
-    public void addAtTail(String newVocab)
+    public void addAtTail(Vocab newVocab)
     {
         if (size==0)
         {
@@ -61,11 +75,11 @@ public class DoublyLinkedList {
             this.tail = new Node(newVocab,tail,null);
 
             oldTail.next = this.tail;
+            size++;
         }
-        size++;
     }
 
-    public void addAfter(String vocab,String newVocab)
+    public void addAfter(Vocab vocab,Vocab newVocab)
     {
         boolean found = false;
         if(size==0)
@@ -96,7 +110,7 @@ public class DoublyLinkedList {
         }
     }
 
-    public void addBefore(String vocab,String newVocab)
+    public void addBefore(Vocab vocab,Vocab newVocab)
     {
         boolean found = false;
         if (size==0)
@@ -130,7 +144,7 @@ public class DoublyLinkedList {
 
     }
 
-    public String removeHead()
+    public Vocab removeHead()
     {
         if (size==0)
         {
@@ -138,7 +152,7 @@ public class DoublyLinkedList {
         }
         else if (size==1)
         {
-            String value = head.value;
+            Vocab value = head.value;
             head=null;
             tail=null;
             size--;
@@ -146,7 +160,7 @@ public class DoublyLinkedList {
         }
         else
         {
-            String value = head.value;
+            Vocab value = head.value;
             head = head.next;
             head.previous=null;
             size--;
@@ -154,7 +168,7 @@ public class DoublyLinkedList {
         }
     }
 
-    public String removeTail()
+    public Vocab removeTail()
     {
         if (size==0)
         {
@@ -166,7 +180,7 @@ public class DoublyLinkedList {
         }
         else
         {
-            String value = tail.value;
+            Vocab value = tail.value;
             tail = tail.previous;
             tail.next =null;
             size--;
@@ -175,9 +189,9 @@ public class DoublyLinkedList {
     }
 
 
-    public String removeValue(String vocab)
+    public Vocab removeValue(Vocab vocab)
     {
-        String value="";
+        Vocab value=null;
         if (size==0)
         {
             value = null;
@@ -218,9 +232,10 @@ public class DoublyLinkedList {
         return this.size;
     }
 
-    public String removeAfter(String vocab)
+    
+    public Vocab removeAfter(Vocab vocab)
     {
-        String value = null;
+        Vocab value = null;
         if (size<2)
         {
             return value;
@@ -236,13 +251,17 @@ public class DoublyLinkedList {
         if (size == 0) {
             System.out.println("The list is empty");
         } else {
-            System.out.println("The list has " + size + " element(s):");
+            System.out.println("The list_vocab has " + size + " element(s):\n");
             Node position = head;
             while (position != null) {
                 System.out.println(position.value);
                 position = position.next;
             }
         }
+    }
+
+    public boolean hasNext(Node node) {
+        return node != null ;
     }
 
 }

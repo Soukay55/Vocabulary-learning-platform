@@ -84,7 +84,6 @@ pattern
 sweater
 wear(out)
 wool(len)
-
 #Colours
 (dark/light/pale)
 gold
@@ -101,7 +100,6 @@ white
 brown
 grey
 red
-
 #Communications and Technology
 access
 delete
@@ -196,7 +194,6 @@ website
 switch off
 text message
 volume
-
 #Education
 absent
 advanced
@@ -283,7 +280,6 @@ pupil
 qualification
 test
 university
-
 #Entertainment and Media
 act (v)
 chat

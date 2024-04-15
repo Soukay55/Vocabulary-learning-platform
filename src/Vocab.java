@@ -15,6 +15,10 @@ public class Vocab {
         this.words = words;
     }
 
+    public SinglyLinkedList getWords()
+    {
+        return words;
+    }
     public Vocab(String topic, SinglyLinkedList words) {
         this.topic = topic;
         this.words = words;
@@ -40,5 +44,10 @@ public class Vocab {
             Vocab otherV = (Vocab) other;
             return this.topic.equals(otherV.topic);
         }
+    }
+
+    public String toString()
+    {
+        return "Topic: "+this.topic+"\nwords:\n"+words.displayList();
     }
 }
